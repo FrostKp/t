@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>This website for you</title>
+    <link rel="stylesheet" href="./page1.css" />
+    <style>
+      body {
+        opacity: 0;
+        transition: opacity 2s ease;
+      }
+      body.loaded {
+        opacity: 1;
+      }
+      body.fade-out {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Autoplay muted so that browsers allow playback -->
+    <audio id="myAudio" autoplay muted  loop>
+      <source src="spotidownloader.com - Tori no Uta _ Air【鳥の詩】 - PianoBox Music - Relaxu.mp3" type="audio/mpeg" />
+      
+    </audio>
+
+    <div class="container">
+      <h1>This Message to you</h1>
+      <h2>Sent by me</h2>
+      <p>Sorry that it isn't that much beautiful</p>
+      <div class="btn">
+        <a href="javascript:void(0);" onclick="fadeAndRedirect('./start.html')">Continue</a>
+      </div>
+    </div>
+
+    <script>
+      // Function to gradually fade out the audio
+      function fadeOutAudio(audioElement, duration) {
+        let step = audioElement.volume / (duration / 100);
+        let fade = setInterval(() => {
+          if (audioElement.volume > step) {
+            audioElement.volume -= step;
+          } else {
+            audioElement.volume = 0;
+            clearInterval(fade);
+            audioElement.pause();
+          }
+        }, 100);
+      }
+
+      // Function to fade out the page and audio, then redirect
+      function fadeAndRedirect(url) {
+        document.body.classList.add("fade-out");
+        const audio = document.getElementById("myAudio");
+        // Optionally unmute the audio after the user clicks "Continue"
+        // For example, if you want sound to play on the next page, you might unmute here:
+        // audio.muted = false;
+        setTimeout(() => {
+          fadeOutAudio(audio, 3000);
+          window.location.href = url;
+        }, 2000);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add("loaded");
+      });
+    </script>
+  </body>
+</html>
